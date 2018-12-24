@@ -1,13 +1,12 @@
 
 from search_videos import youtube_search
-from oauth2client.tools import argparser
+from apiclient.errors import HttpError
+import sys
+
 
 if __name__ == "__main__":
-    argparser.add_argument("--q", help="Search term", default="Google")
-    argparser.add_argument("--max-results", help="Max results", default=25)
-    args = argparser.parse_args()
-
     try:
-        youtube_search(args)
+        if len(sys.argv) > 1:
+            youtube_search(q=sys.argv[1],max_results=sys.argv[2])
     except(HttpError, e):
         print("An HTTP error %d occurred:\n%s" % (e.resp.status, e.content))

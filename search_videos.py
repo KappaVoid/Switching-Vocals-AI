@@ -1,7 +1,6 @@
 
 
 from apiclient.discovery import build
-from apiclient.errors import HttpError
 from youtbe_video import YoutubeVideo
 
 
@@ -13,16 +12,16 @@ DEVELOPER_KEY = "AIzaSyBqAlpo4qiJgkgmM3Pj_IM80gFDecOFghA"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
-def youtube_search(options):
+def youtube_search(q, max_results):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
                     developerKey=DEVELOPER_KEY)
 
     # Call the search.list method to retrieve results matching the specified
     # query term.
     search_response = youtube.search().list(
-        q=options.q,
+        q=q,
         part="id",
-        maxResults=options.max_results
+        maxResults=max_results
     ).execute()
 
     videos = []
