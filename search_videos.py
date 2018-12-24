@@ -12,7 +12,7 @@ DEVELOPER_KEY = "AIzaSyBqAlpo4qiJgkgmM3Pj_IM80gFDecOFghA"
 YOUTUBE_API_SERVICE_NAME = "youtube"
 YOUTUBE_API_VERSION = "v3"
 
-def youtube_search(q, max_results):
+def youtube_search(q, max_results, verbose = False):
     youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION,
                     developerKey=DEVELOPER_KEY)
 
@@ -43,10 +43,11 @@ def youtube_search(q, max_results):
 
     for video_result in videos_list_response.get("items", []):
         video_url =  "https://www.youtube.com/watch?v=" + video_result["id"]
-        print("Video Title: ", video_result["snippet"]["title"] + "\n")
-        print("Video Url :", video_url + "\n")
-        print("Video duration  :", video_result["contentDetails"]["duration"] +"\n")
-        print("==============================================\n")
+        if(verbose == True):
+            print("Video Title: ", video_result["snippet"]["title"] + "\n")
+            print("Video Url :", video_url + "\n")
+            print("Video duration  :", video_result["contentDetails"]["duration"] +"\n")
+            print("==============================================\n")
         videos.append(
             YoutubeVideo(
                 title=video_result["snippet"]["title"],
