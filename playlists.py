@@ -1,11 +1,7 @@
-from constants import DEVELOPER_KEY, YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION
+from constants import youtube
 from videos import get_video_list_with_details_and_filter
-from apiclient.discovery import build
-
-
+ 
 def get_playlist_videos(playlist_id, verbose=False):
-    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
-
     playlistitems_list_request = youtube.playlistItems().list(
         playlistId=playlist_id,
         part="snippet",
@@ -31,3 +27,24 @@ def get_playlist_videos(playlist_id, verbose=False):
             playlistitems_list_request, playlistitems_list_response)
 
     return playlist_videos
+
+
+def get_playlist_videos_url(videos_list):
+    urls = []
+    for video_list in videos_list:
+        for video in video_list:
+            urls.append(video.url)
+
+    return urls
+
+
+def get_list_videos(videos_list):
+    urls = []
+    for video_list in videos_list:
+        for video in video_list:
+            urls.append(video)
+
+    return urls
+
+
+

@@ -1,7 +1,6 @@
 import re
-from apiclient.discovery import build
 from youtube_video import YoutubeVideo
-from constants import DEVELOPER_KEY, YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION
+from constants import youtube
 
 
 def should_add_video(youtube_video):
@@ -17,9 +16,6 @@ def should_add_video(youtube_video):
 
 
 def get_video_list_with_details_and_filter(video_ids, verbose=False):
-    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
-    # Call the API's videos.list method to retrieve the video resource.
-
     videos_list_response = youtube.videos().list(
         id=video_ids,
         part='snippet,contentDetails'
