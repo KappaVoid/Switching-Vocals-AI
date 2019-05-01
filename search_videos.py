@@ -1,16 +1,15 @@
-from apiclient.discovery import build
-from constants import DEVELOPER_KEY, YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION
+from constants import youtube
 from videos import get_video_list_with_details_and_filter
+from difflib import SequenceMatcher
 
+def similar(a, b):
+    return SequenceMatcher(None, a, b).ratio()
 
 # Set DEVELOPER_KEY to the API key value from the APIs & auth > Registered apps
 # tab of
 #   https://cloud.google.com/console
 # Please ensure that you have enabled the YouTube Data API for your project.
-
-
 def youtube_search(q, max_results, verbose=False):
-    youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
 
     # Call the search.list method to retrieve results matching the specified
     # query term.
@@ -30,3 +29,21 @@ def youtube_search(q, max_results, verbose=False):
     video_ids = ",".join(search_videos_id)
 
     return get_video_list_with_details_and_filter(video_ids, verbose)
+
+
+def get_original_videos_list(switching_vocals_videos):
+    for video in switching_vocals_videos:
+        results  = youtube_search(video.original_video_title,25)
+        high_similarity = 0
+        for result in results:
+            similarity = similar(video.original_video_title,result.title)
+            print("Checking similarity between ", video.original_video_title, " and ", result.title," ... ", similarity)
+            if similarity > high_similarity:
+                high_similarity = similarity
+                video.orginal_video = result
+
+    return switching_vocals_videos
+
+
+
+ 

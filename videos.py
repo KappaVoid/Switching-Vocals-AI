@@ -4,14 +4,14 @@ from constants import youtube
 
 
 def should_add_video(youtube_video):
-    result = bool(re.search(r"mashup|medley|,|;|cover|X", youtube_video.title, flags=re.IGNORECASE)) \
+    result = bool(re.search(r"mashup|medley|,|;|cover|X|megamix", youtube_video.title, flags=re.IGNORECASE)) \
              or " \\ " in youtube_video.title \
              or " / " in youtube_video.title \
              or "\\\\" in youtube_video.title \
              or " ✗ " in youtube_video.title \
              or " // " in youtube_video.title
 
-    # print(youtube_video.title, "matches filter : ", result, "\n")
+    #print(youtube_video.title, "matches filter : ", result,"\n")
     return not result
 
 
@@ -35,8 +35,8 @@ def get_video_list_with_details_and_filter(video_ids, verbose=False):
             print("Video duration  :", video_result["contentDetails"]["duration"] + "\n")
             print("==============================================\n")
 
-        if should_add_video(youtube_video):
-            print(youtube_video.title)
+        if should_add_video(youtube_video) == True:
+            #print(youtube_video.title)
             videos.append(youtube_video)
 
 
